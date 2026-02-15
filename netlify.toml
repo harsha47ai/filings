@@ -1,0 +1,13 @@
+# Netlify configuration for Next.js 14 (App Router) + Prisma
+# See README "Deployment (Neon + Netlify + GoDaddy)" for full steps.
+
+[build]
+  command = "npx prisma generate && npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Next.js runtime: Netlify auto-detects Next and runs API routes as serverless functions.
+# Set these in Netlify UI (Site settings → Environment variables), not here:
+#   DATABASE_URL, NEXTAUTH_SECRET, NEXTAUTH_URL, NEXT_PUBLIC_APP_URL, ADMIN_EMAIL, ADMIN_PASSWORD

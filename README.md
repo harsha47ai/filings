@@ -62,10 +62,23 @@ Open [http://localhost:3000](http://localhost:3000). Admin panel: [http://localh
 | `npm run lint` | Run ESLint                     |
 | `npm run db:push`   | Push Prisma schema (no migrations) |
 | `npm run db:migrate`| Create and run migrations      |
+| `npm run db:deploy` | Run migrations (production, e.g. Neon) |
 | `npm run db:seed`   | Seed categories, services, locations |
 | `npm run db:studio` | Open Prisma Studio             |
 
 ## Deployment
+
+### Option A: Neon + Netlify + GoDaddy (recommended)
+
+One repo, one deployment. No separate backend.
+
+1. **Neon (database)** — Create a project at [neon.tech](https://neon.tech), copy the connection string. Set `DATABASE_URL` locally to that URL, then run `npx prisma migrate deploy` and `npm run db:seed`. Use the same `DATABASE_URL` in Netlify.
+2. **Netlify (app)** — Connect this repo. Build is in `netlify.toml`. In Site settings → Environment variables add: `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `NEXT_PUBLIC_APP_URL`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`. Deploy.
+3. **GoDaddy (domain)** — In GoDaddy DNS add CNAME to `your-site.netlify.app`. In Netlify add custom domain. Then set `NEXTAUTH_URL` and `NEXT_PUBLIC_APP_URL` to `https://yourdomain.com` and redeploy.
+
+**Checklist:** Neon → migrate + seed → Netlify connect repo + env → deploy → GoDaddy CNAME → Netlify custom domain → production URLs → redeploy.
+
+### Option B: Other hosts
 
 1. **Database:** Provision PostgreSQL (e.g. Vercel Postgres, Supabase, Railway).
 2. **Environment:** Set all variables above in your host. For production:
