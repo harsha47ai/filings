@@ -1,0 +1,27 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export function FAQAccordion({ items }: { items: FAQItem[] }) {
+  if (!items?.length) return null;
+  return (
+    <Accordion type="single" collapsible className="w-full">
+      {items.map((item, i) => (
+        <AccordionItem key={i} value={`faq-${i}`}>
+          <AccordionTrigger className="text-left">
+            {item.question}
+          </AccordionTrigger>
+          <AccordionContent>{item.answer}</AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  );
+}
